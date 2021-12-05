@@ -118,3 +118,16 @@ class TestShtuff(unittest.TestCase):
         out = subprocess.run("shtuff has cheezeburgerz", shell=True, capture_output=True, encoding='utf-8')
         self.assertEqual(out.returncode, 1)
         self.assertIn('not found', out.stderr)
+
+    # def test_shtuff_named_whoami(self):
+    #     receiver = pexpect.spawn("shtuff as cheezeburgerz")
+    #     receiver.sendline('shtuff whoami')
+    #     receiver.expect('cheezeburgerz')
+
+    # TODO: also assert stdout is empty
+    def test_shtuff_no_name_whoami(self):
+        receiver = pexpect.spawn("bash")
+        receiver.sendline("shtuff whoami > /dev/null")
+        receiver.expect("shtuff: this is not a shtuff receiver!")
+        receiver.sendline("echo $?")
+        receiver.expect("1")

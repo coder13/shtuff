@@ -76,6 +76,9 @@ def main():
     parser_has.add_argument('name', help='the name of the shell to send the given command to')
     parser_has.set_defaults(func=shtuff_has)
 
+    parser_whoami = subparsers.add_parser('whoami', help='prints name of shtuff receiver')
+    parser_whoami.set_defaults(func=shtuff_whoami)
+
     args = vars(parser.parse_args())
     if not args:
         return parser.print_help()
@@ -134,6 +137,11 @@ def shtuff_has(name):
         exit(1)
 
     print(f"Shtuff process {name} was found with pid of {pid}.")
+
+
+def shtuff_whoami(): 
+    print("shtuff: this is not a shtuff receiver!", file=sys.stderr)
+    exit(1)
 
 def get_pid_file(name):
     safe_name = base64.urlsafe_b64encode(name.encode('utf8'))
